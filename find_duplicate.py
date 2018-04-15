@@ -4,7 +4,7 @@ import re
 
 #####
 
-def read_csv(infilename,name_column,seq_column,):
+def read_csv(infilename,name_column,seq_column,name_parse_flag):
     infile =open(infilename, 'rU')
     seqdict={}
 
@@ -20,8 +20,8 @@ def read_csv(infilename,name_column,seq_column,):
         row = row.strip('\n')
         row = row.split(split_symble)
         ID=row[name_column]
-        ID = exact_number(ID)
-
+        if name_parse_flag == True:
+            ID = exact_number(ID)
         #output=row[name_column]+'\t'+row[seq_column]+'\n'
         #alldict.append(row[0]:row[column_ID])
         row[seq_column] = row[seq_column].replace(' ','')
@@ -115,25 +115,33 @@ def exact_number(string):
         IDs= re.search('\d{4}',string)
 
         print "String :" + string
-        #print IDs
+        print IDs
         return IDs.group(0)
 
 
 ######### iniate new data ########
-infilename1= raw_input("input csv file name?  ") or "productive_removeSS.csv"
+infilename1= raw_input("input csv file name?  ") or "HC_upkII.csv"
 
-namecolumn = raw_input("In which column contains the ID?   ") or '1'
+namecolumn = raw_input("In which column contains the ID?   ") or '2'
 namecolumn = int(namecolumn) -1
 
-seq_column=raw_input("In which column contains seq?   ") or "2"
+seq_column=raw_input("In which column contains seq?   ") or "12"
 seq_column = int(seq_column) -1
 
+name_parse_input= raw_input('Do you want to parse name (only keep the numbers in the name)?') or "No"
+name_parse_input = name_parse_input.replace(' ','')
+name_parse_input =name_parse_input.upper()
+if name_parse_input == "YES" or name_parse_input =='Y':
+    name_parse_flag = True
+else:
+    name_parse_flag = False
 
-outfilename = raw_input("Output name? (csv format) ") or "unique.csv"
-
-
-all_dict = read_csv(infilename1,namecolumn,seq_column)
-print all_dict
+#outfilename = raw_input("Output name? (csv format) ") or "unique.csv"
+outfilename = infilename1.replace('.csv' or '.txt','')
+outfilename = outfilename.rstrip('.csv')
+outfilename = outfilename +'_unique.csv'
+all_dict = read_csv(infilename1,namecolumn,seq_column,name_parse_flag)
+#print all_dict
 unique_dict = find_unique_dict(all_dict)
-print unique_dict
+#print unique_dict
 write_csv(unique_dict,outfilename)

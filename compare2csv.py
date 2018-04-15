@@ -97,8 +97,8 @@ def exact_number(string):
 
 
 ######### iniate new data ########
-infilename1= raw_input("Table contains the 5'race sequence   ") or "tillerHC.csv"
-infilename2= raw_input("Table contains the tiller sequence   ") or "Craig_smart.csv"
+infilename1= raw_input("First file name, in .txt or .csv format?   ") or "tillerHC.csv"
+infilename2= raw_input("Second file name, in .txt or .csv format?    ") or "Craig_smart.csv"
 
 namecolumn = raw_input("In which column contains the ID?   ") or '1'
 namecolumn = int(namecolumn) -1
